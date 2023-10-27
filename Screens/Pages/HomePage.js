@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   ActivityIndicator,
   ScrollView,
+  ImageBackground,
+  TextInput,
 } from "react-native";
 import React, { useState, useEffect } from "react";
 import { collection, query, where, getDocs } from "firebase/firestore";
@@ -16,7 +18,7 @@ import { getAuth } from "firebase/auth";
 import { useNavigation } from "@react-navigation/native";
 
 export default function HomePage({ route }) {
-  const { user } = route.params;
+  // const { user } = route.params;
   const [list, setList] = useState("");
   const [reports, setReports] = useState(null);
   const navigation = useNavigation();
@@ -27,7 +29,8 @@ export default function HomePage({ route }) {
     const handleSearch = async () => {
       // if (phoneNumber) {
       setIsLoading(true);
-      const mobile = user.phoneNumber;
+      // const mobile = user.phoneNumber;
+      const mobile = "+94702050322";
       const cleanedMobile = "0" + mobile.slice(-10).substring(1);
       console.log(cleanedMobile);
       try {
@@ -100,94 +103,169 @@ export default function HomePage({ route }) {
           <ActivityIndicator size="large" color={"#2196F3"} />
         </View>
       ) : (
-        <ScrollView>
-          {patientDetails ? (
-            <View>
-              {patientDetails.map((patient) => (
-                <View
-                  style={{
-                    margin: 10,
-                    padding: 10,
-                    borderColor: "#000",
-                    borderWidth: 2,
-                    borderRadius: 10,
-                  }}
-                  key={patient.id}
-                >
-                  <Text style={styles.label}>Patient Details</Text>
-                  <View style={styles.detailsContainer}>
-                    <Text style={styles.detailLabel}>Full Name:</Text>
-                    <Text style={styles.detailText}>{patient.fullName}</Text>
-                  </View>
-                  <View style={styles.detailsContainer}>
-                    <Text style={styles.detailLabel}>Date of Birth:</Text>
-                    <Text style={styles.detailText}>{patient.dob}</Text>
-                  </View>
-                  <View style={styles.detailsContainer}>
-                    <Text style={styles.detailLabel}>Gender:</Text>
-                    <Text style={styles.detailText}>{patient.gender}</Text>
-                  </View>
-                  <View style={styles.detailsContainer}>
-                    <Text style={styles.detailLabel}>Email:</Text>
-                    <Text style={styles.detailText}>{patient.email}</Text>
-                  </View>
-                  <View style={styles.detailsContainer}>
-                    <Text style={styles.detailLabel}>Address:</Text>
-                    <Text style={styles.detailText}>{patient.address}</Text>
-                  </View>
-                  <View style={styles.detailsContainer}>
-                    <Text style={styles.detailLabel}>District:</Text>
-                    <Text style={styles.detailText}>{patient.district}</Text>
-                  </View>
-                  <View style={styles.detailsContainer}>
-                    <Text style={styles.detailLabel}>Identity Card No:</Text>
-                    <Text style={styles.detailText}>
-                      {patient.identityCardNo}
+        <ScrollView style={{ flex: 1 }}>
+          <ImageBackground
+            style={{
+              flex: 1,
+              height: "100%",
+              width: "100%",
+              resizeMode: "contain",
+            }}
+            source={require("../../assets/16404766_v870-tang-37(3).jpg")}
+          >
+            {patientDetails ? (
+              <View style={{ padding: 10 }}>
+                {patientDetails.map((patient) => (
+                  <View key={patient.id}>
+                    <Text
+                      style={{
+                        fontSize: 20,
+                        paddingLeft: 15,
+                        paddingTop: 35,
+                      }}
+                    >
+                      Hello! Welcome 👋
                     </Text>
-                  </View>
-                  <View style={styles.detailsContainer}>
-                    <Text style={styles.detailLabel}>Mobile No:</Text>
-                    <Text style={styles.detailText}>{patient.mobileNo}</Text>
-                  </View>
-                </View>
-              ))}
-            </View>
-          ) : (
-            <Text>No patient details available.</Text>
-          )}
+                    <Text
+                      style={{
+                        fontSize: 30,
+                        fontWeight: "bold",
+                        paddingLeft: 20,
+                      }}
+                    >
+                      {patient.fullName}
+                    </Text>
+                    <TouchableOpacity
+                      style={{
+                        marginLeft: "auto",
+                        padding: 5,
+                      }}
+                      onPress={() => console.log("Do something")}
+                    >
+                      <Text
+                        style={{
+                          color: "#607D8B",
+                          fontWeight: "700",
+                          fontSize: 17,
+                        }}
+                      >
+                        See Profile
+                      </Text>
+                    </TouchableOpacity>
 
-          <Text style={{ fontSize: 25, fontWeight: "bold", margin: 10 }}>
-            My Eye Reports
-          </Text>
-          <View style={{ flex: 1 }}>
-            <FlatList
-              data={reports}
-              keyExtractor={(item, index) => index.toString()}
-              renderItem={({ item }) => (
-                <TouchableOpacity
-                  style={{
-                    backgroundColor: "#fff",
-                    borderRadius: 10,
-                    flex: 1,
-                    elevation: 10,
-                    margin: 10,
-                  }}
-                  onPress={() => navigation.navigate("Report", { item })}
-                >
-                  <Image
-                    source={{ uri: item.results[0].imageLink }}
-                    style={{ width: "100%", height: 200 }}
-                  />
-                  <View style={{ padding: 10 }}>
-                    <Text style={styles.detailLabel}>Date: {item.date}</Text>
-                    <Text style={styles.detailLabel}>
-                      Comment: {item.comment}
-                    </Text>
+                    <View
+                      style={{
+                        marginHorizontal: 15,
+                        marginVertical: 15,
+                        maxHeight: 100,
+                      }}
+                    >
+                      <Image
+                        style={{
+                          width: "100%",
+                          height: "100%",
+                          borderRadius: 10,
+                          resizeMode: "contain",
+                        }}
+                        source={require("../../assets/Doctor_Ad_Image.png")}
+                      />
+                    </View>
+
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        alignItems: "center",
+                        paddingHorizontal: 10,
+                        backgroundColor: "#fff",
+                        borderRadius: 5,
+                      }}
+                    >
+                      {/* <Icon name="search" type="font-awesome" /> */}
+                      <TextInput
+                        style={{ flex: 1, marginLeft: 10 }}
+                        placeholder="Search..."
+                        // value={searchText}
+                        // onChangeText={(text) => setSearchText(text)}
+                      />
+                    </View>
                   </View>
-                </TouchableOpacity>
-              )}
-            ></FlatList>
-          </View>
+                ))}
+              </View>
+            ) : (
+              <Text>No patient details available.</Text>
+            )}
+
+            <View
+              style={{
+                borderTopEndRadius: 20,
+                borderTopLeftRadius: 20,
+                backgroundColor: "#fff",
+              }}
+            >
+              <Text
+                style={{
+                  fontSize: 25,
+                  fontWeight: "bold",
+                  margin: 10,
+                }}
+              >
+                My Eye Reports
+              </Text>
+
+              <View>
+                {reports.map((item, index) => (
+                  <TouchableOpacity
+                    key={index}
+                    style={{
+                      borderRadius: 5,
+                      backgroundColor: "#D2EBE7",
+                      marginHorizontal: 20,
+                      marginVertical: 7,
+                      elevation: 5,
+                    }}
+                    onPress={() => navigation.navigate("Report", { item })}
+                  >
+                    <View
+                      style={{
+                        flexDirection: "row",
+                        justifyContent: "space-between",
+                      }}
+                    >
+                      <Image
+                        source={{ uri: item.results[0].imageLink }}
+                        style={{
+                          width: "50%",
+                          height: 170,
+                          resizeMode: "contain",
+                          margin: 7,
+                        }}
+                      />
+                      <View style={{ padding: 10, flex: 1 }}>
+                        <Text
+                          style={{
+                            marginLeft: "auto",
+                            marginBottom: 10,
+                            backgroundColor: "#8ED7F0",
+                            padding: 3,
+                            paddingHorizontal: 6,
+                            borderRadius: 5,
+                            fontSize: 15,
+                          }}
+                        >
+                          {item.date}
+                        </Text>
+                        <View>
+                          <Text numberOfLines={5} style={styles.detailLabel}>
+                            {item.comment}
+                          </Text>
+                        </View>
+                      </View>
+                    </View>
+                  </TouchableOpacity>
+                ))}
+              </View>
+            </View>
+          </ImageBackground>
         </ScrollView>
       )}
     </View>
@@ -203,7 +281,7 @@ const styles = StyleSheet.create({
   label: {
     fontSize: 23,
     fontWeight: "bold",
-    marginBottom: 16,
+    // marginBottom: 16,
     textAlign: "center",
   },
   detailsContainer: {
@@ -212,9 +290,8 @@ const styles = StyleSheet.create({
     marginBottom: 8,
   },
   detailLabel: {
-    fontSize: 17,
-    fontWeight: "bold",
-    flex: 1.5,
+    fontSize: 15,
+    fontWeight: "600",
   },
   detailText: {
     fontSize: 17,

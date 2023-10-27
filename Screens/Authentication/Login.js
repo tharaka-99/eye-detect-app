@@ -84,7 +84,7 @@ export default function Login() {
               alignItems: "center",
               borderRadius: 10,
             }}
-            onPress={() => navigation.navigate("SigninPage")}
+            onPress={() => navigation.navigate("Home")}
           >
             <Text
               style={{ fontSize: 20, fontWeight: "bold", color: "#2196F3" }}

@@ -53,10 +53,10 @@ export default function App() {
             component={HomePage}
             options={{
               title: "Home",
-              headerStyle: { backgroundColor: "#fff" },
+              headerStyle: { backgroundColor: "red" },
               headerShadowVisible: false,
               headerTitleAlign: "center",
-              // headerShown: false,
+              headerShown: false,
               headerBackVisible: false,
             }}
           />
